@@ -1,17 +1,23 @@
-import { app, BrowserWindow, ipcMain, Tray, nativeImage } from "electron";
+import { app, BrowserWindow, ipcMain } from "electron";
 import path from "path";
-import { getAssetsPath, getPreloadPath, isDev, validateEventFrame } from "./util.js";
-import { userController } from "./controllers/userController.js";
+import {getPreloadPath, isDev, validateEventFrame } from "./util.js";
+import userController  from "./controllers/userController.js";
 import { createTray } from "./tray.js";
 import { createMenu } from "./menu.js";
+import UserController from "./controllers/userController.js";
+import createLoginWindow from "./windwos/loginWindow.js";
 
 
-app.on('ready', () => {
+let loginWindow;
+let mainWindow;
+
+
+function createMainWindow(){
     const mainWindow = new BrowserWindow({
         webPreferences: {
             preload: getPreloadPath()
         },
-        frame: false
+        // frame: false
     });
 
     if (isDev()) {
@@ -19,13 +25,6 @@ app.on('ready', () => {
     } else {
         mainWindow.loadFile(path.join(app.getAppPath(), "react-dist/index.html"));
     }
-
-
-    new userController().logUser(mainWindow)
-
-
-
-    // mainWindow.webContents.openDevTdools()
 
     // Handel userData
     ipcMain.handle('userData', (event) => {
@@ -50,8 +49,12 @@ app.on('ready', () => {
         }
     })
 
+    ipcMain.on('registerUser', (envent, payload) => {
+        new UserController().create(payload)
+    })
 
-  
+
+
 
     // Close evnet
     hadnleCloseEvent(mainWindow);
@@ -64,12 +67,31 @@ app.on('ready', () => {
     // Menu
     createMenu(mainWindow)
 
+}
 
 
 
+ipcMain.handle('loginUser', async (event, payload) => {
+    try {
+        const user = await new UserController().login(payload);
+        if (user) {
+            loginWindow.close();
+            mainWindow = createMainWindow();
+            return user;
+        }
+    } catch (error) {
+        console.error('Login error:', error);
+        return null; // Return null or handle the error as needed
+    }
+});
+
+
+app.on('ready', () => {
+    loginWindow = createLoginWindow()
 
 
 
+    
 })
 
 
