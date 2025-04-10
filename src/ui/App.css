@@ -1,0 +1,12 @@
+
+
+
+.frame{
+    -webkit-app-region: drag;
+}
+
+.frame div button {
+    -webkit-app-region: no-drag;
+}
+
+

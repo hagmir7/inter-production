@@ -1,0 +1,16 @@
+{
+    "appId" : "com.intercocina.production",
+    "files" : ["react-dist", "src/electron"],
+    "icon": "./intercocina-logo.png",
+    "extraResources" : ["src/electron/prelaod.cjs", "src/electron/assets/**"] ,
+    "win":{
+        "target": ["portable", "msi"]
+    },
+    "mac":{
+        "target": "dmg"
+    },
+    "linux": {
+        "target": "AppImage",
+        "category": "Uitilty"
+    }
+}
