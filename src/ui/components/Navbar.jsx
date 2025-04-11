@@ -9,7 +9,7 @@ const Navbar = () => {
     <nav className='duration-300 backdrop-filter backdrop-blur-lg backdrop-saturate-200 transition-shadow bg-opacity-90 items-center w-full flex justify-between bg-wash dark:bg-wash-dark dark:bg-opacity-95 px-1.5 lg:pe-5 lg:ps-4 z-40 border-b border-b-gray-200'>
       <div className='flex items-center justify-between w-full h-16 gap-0 sm:gap-3'>
         <div className='flex flex-row 3xl:flex-1 items-centers'>
-          <button
+          {/* <button
             type='button'
             aria-label='Menu'
             className='active:scale-95 transition-transform flex lg:hidden w-12 h-12 rounded-full items-center justify-center hover:bg-primary/5 hover:dark:bg-primary-dark/5 outline-link'
@@ -28,7 +28,7 @@ const Navbar = () => {
               <line x1='3' y1='6' x2='21' y2='6'></line>
               <line x1='3' y1='18' x2='21' y2='18'></line>
             </svg>
-          </button>
+          </button> */}
 
           <span
             data-state='closed'
@@ -67,7 +67,7 @@ const Navbar = () => {
 
         <div className='text-base justify-center items-center gap-1.5 flex 3xl:flex-1 flex-row 3xl:justify-end'>
           <div className='mx-2.5 gap-1.5 hidden lg:flex'>
-            <NavLink lable='Login' to='/login' />
+            {/* <NavLink lable='Login' to='/login' /> */}
             <NavLink lable='Learn' to='/users' />
             <NavLink lable='Profile' to='/users' />
             <NavLink lable='About' to='/users' />

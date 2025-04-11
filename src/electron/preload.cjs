@@ -21,7 +21,15 @@ electron.contextBridge.exposeInMainWorld('electron', {
     userData: () => ipcInvoke('userData'),
 
     registerUser: (payload) => electron.ipcRenderer.send('registerUser', payload),
-    loginUser: (payload) => electron.ipcRenderer.invoke('loginUser', payload)
+    loginUser: (payload) => electron.ipcRenderer.invoke('loginUser', payload),
+
+    open : (url) => electron.shell.openExternal(url),
+   
+    versions: {
+        node: process.versions.node,
+        chrome: process.versions.chrome,
+        electron: process.versions.electron
+    }
 
 })
 

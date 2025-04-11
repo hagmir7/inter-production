@@ -1,7 +1,7 @@
 import { app, BrowserWindow, ipcMain } from "electron";
 import path from "path";
-import {getPreloadPath, isDev, validateEventFrame } from "./util.js";
-import userController  from "./controllers/userController.js";
+import { getPreloadPath, isDev, validateEventFrame } from "./util.js";
+import userController from "./controllers/userController.js";
 import { createTray } from "./tray.js";
 import { createMenu } from "./menu.js";
 import UserController from "./controllers/userController.js";
@@ -12,12 +12,15 @@ let loginWindow;
 let mainWindow;
 
 
-function createMainWindow(){
+function createMainWindow() {
     const mainWindow = new BrowserWindow({
+        title: "Production - INTERCOCINA",
+        width: 1300,
+        height: 800,
         webPreferences: {
             preload: getPreloadPath()
         },
-        // frame: false
+        frame: false
     });
 
     if (isDev()) {
@@ -52,18 +55,10 @@ function createMainWindow(){
     ipcMain.on('registerUser', (envent, payload) => {
         new UserController().create(payload)
     })
-
-
-
-
     // Close evnet
     hadnleCloseEvent(mainWindow);
-
-
     // Icon
     createTray(mainWindow);
-
-
     // Menu
     createMenu(mainWindow)
 
@@ -91,7 +86,7 @@ app.on('ready', () => {
 
 
 
-    
+
 })
 
 

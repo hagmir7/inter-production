@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import pkg from '../../../package.json'
 import {
   Github,
@@ -24,14 +24,9 @@ const Footer = () => {
     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
   }
 
-  const openLink = (url) => {
-    // For Electron, you'd typically use window.electron.shell.openExternal
-    // This is a fallback for web environments
-    if (window.electron?.shell) {
-      window.electron.shell.openExternal(url)
-    } else {
-      window.open(url, '_blank', 'noopener,noreferrer')
-    }
+  const openLink = async (url) => {
+    console.log('window.electron:', window.electron) // Debugging 
+    console.log(window.electron.open(url));
   }
 
   return (
@@ -87,13 +82,13 @@ const Footer = () => {
       {showSettings && (
         <div className='mt-3 pt-3 border-t border-gray-800 grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs'>
           <div>
-            <h4 className='font-medium text-white mb-1'>System Info</h4>
-            <p>Node: {process.versions?.node || 'N/A'}</p>
-            <p>Chrome: {process.versions?.chrome || 'N/A'}</p>
-            <p>Electron: {process.versions?.electron || 'N/A'}</p>
+            <h4 className='font-black text-gray-600 mb-1'>Informations système</h4>
+            <p>Node: {window.electron.versions?.node || 'N/A'}</p>
+            <p>Chrome: {window.electron.versions?.chrome || 'N/A'}</p>
+            <p>Electron: {window.electron.versions?.electron || 'N/A'}</p>
           </div>
           <div>
-            <h4 className='font-medium text-white mb-1'>Quick Links</h4>
+            <h4 className='font-black text-gray-600 mb-1'>Quick Links</h4>
             <button
               onClick={() => openLink('https://intercocina.com/docs')}
               className='block hover:text-white transition-colors mb-1 flex items-center'
@@ -108,10 +103,10 @@ const Footer = () => {
             </button>
           </div>
           <div>
-            <h4 className='font-medium text-white mb-1'>App Status</h4>
+            <h4 className='font-black text-gray-600 mb-1'>Statut de l'application</h4>
             <div className='flex items-center'>
               <div className='w-2 h-2 rounded-full bg-green-400 mr-2'></div>
-              <span>Connected</span>
+              <span>Connecté</span>
             </div>
             <p>
               Memory:{' '}
@@ -129,7 +124,7 @@ const Footer = () => {
 // This ensures the main content doesn't get hidden behind the footer
 const WithFooterSpacing = ({ children }) => {
   const [footerHeight, setFooterHeight] = useState(0)
-  const footerRef = React.useRef(null)
+  const footerRef = useRef(null)
 
   useEffect(() => {
     if (footerRef.current) {

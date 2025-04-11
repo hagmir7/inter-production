@@ -1,46 +1,43 @@
-import { useEffect, useState } from 'react'
-import './App.css'
-import Frame from './components/frame'
-import {Routes, Route } from 'react-router'
-import Home from './pages/Home'
-import NotFound from './pages/NotFound'
-import User from './pages/User'
-import Navbar from './components/Navbar'
-import Footer from './components/Footer'
-import Layout from './components/layout';
-import Sidebar from './components/Sidebar'
-import RegisterForm from './pages/Register'
-import Login from './pages/Login'
+import './App.css';
+import { Routes, Route } from 'react-router-dom';
+import Home from './pages/Home';
+import NotFound from './pages/NotFound';
+import User from './pages/User';
+import RegisterForm from './pages/Register';
+import Login from './pages/Login';
+import Layout from './layouts/Layout';
+import AuthLayout from './layouts/AuthLayout';
+import Frame from './components/Frame'
+import Footer from './components/Footer';
+import Production from './pages/Production';
+import Maintenance from './pages/Maintenance';
+import Machine from './pages/Machine';
 
 function App() {
-  // const [time, setTime] = useState(null)
-
-  // useEffect(() => {
-  //   const unsubscribe = window.electron.subscribeStatistics((stats) => {
-  //     setTime(stats)
-  //   })
-  //   return unsubscribe
-  // })
-
   return (
     <>
       <Frame />
-      <Navbar />
-      <Sidebar />
-      <Layout>
-        <Routes>
-          <Route path='/' element={<Home />} />
+      <Routes>
 
-          <Route path='/users' element={<User />} />
-          <Route path='/register' element={<RegisterForm />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='*' element={<NotFound />} />
-        </Routes>
-      </Layout>
+        {/* Authentication Routes */}
+        <Route element={<AuthLayout />}>
+          <Route path="/login" element={<Login />} />
+        </Route>
 
+        {/* Main Layout Routes */}
+        <Route element={<Layout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/production" element={<Production />} />
+          <Route path="/maintenance" element={<Maintenance />} />
+          <Route path="/machines" element={<Machine />} />
+          <Route path="/register" element={<RegisterForm />} />
+          <Route path="/users" element={<User />} />
+          <Route path="*" element={<NotFound />} />
+        </Route>
+      </Routes>
       <Footer />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
