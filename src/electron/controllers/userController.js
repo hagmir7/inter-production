@@ -7,6 +7,11 @@ export default class UserController {
         this.secretKey = 'intercocina';
     }
 
+    async all() {
+        const [row] = await db.query("SELECT * FROM users");
+        return row;
+    }
+
     async create(data) {
         try {
             // Hash the password

@@ -5,7 +5,7 @@ import mysql from 'mysql2/promise'
 const db = mysql.createPool({
     host: 'localhost',
     user: 'root',
-    password: '',
+    password: '12011998',
     database: 'inter_production',
 });
 

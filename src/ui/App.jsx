@@ -12,6 +12,7 @@ import Footer from './components/Footer';
 import Production from './pages/Production';
 import Maintenance from './pages/Maintenance';
 import Machine from './pages/Machine';
+import 'primereact/resources/themes/lara-light-cyan/theme.css'
 
 function App() {
   return (

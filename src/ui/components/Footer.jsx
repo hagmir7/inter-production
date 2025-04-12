@@ -45,7 +45,7 @@ const Footer = () => {
           <div className='flex items-center space-x-3'>
             <button
               onClick={() => openLink('https://github.com/intercocina')}
-              className='hover:text-white transition-colors'
+              className='hover:text-gray-500 transition-colors'
               aria-label='GitHub'
               title='Visit GitHub'
             >
@@ -53,7 +53,7 @@ const Footer = () => {
             </button>
             <button
               onClick={() => openLink('https://intercocina.com/support')}
-              className='hover:text-white transition-colors'
+              className='hover:text-gray-5 transition-colors'
               aria-label='Support'
               title='Get Support'
             >
@@ -61,7 +61,7 @@ const Footer = () => {
             </button>
             <button
               onClick={() => setShowSettings(!showSettings)}
-              className='hover:text-white transition-colors'
+              className='hover:text-gray-5 transition-colors'
               aria-label='Settings'
               title='Open Settings'
             >
@@ -84,20 +84,20 @@ const Footer = () => {
           <div>
             <h4 className='font-black text-gray-600 mb-1'>Informations système</h4>
             <p>Node: {window.electron.versions?.node || 'N/A'}</p>
-            <p>Chrome: {window.electron.versions?.chrome || 'N/A'}</p>
+            {/* <p>Chrome: {window.electron.versions?.chrome || 'N/A'}</p> */}
             <p>Electron: {window.electron.versions?.electron || 'N/A'}</p>
           </div>
           <div>
             <h4 className='font-black text-gray-600 mb-1'>Quick Links</h4>
             <button
               onClick={() => openLink('https://intercocina.com/docs')}
-              className='block hover:text-white transition-colors mb-1 flex items-center'
+              className='block hover:text-gray-5 transition-colors mb-1 flex items-center'
             >
               Documentation <ExternalLink size={12} className='ml-1' />
             </button>
             <button
               onClick={() => openLink('https://intercocina.com/releases')}
-              className='block hover:text-white transition-colors mb-1 flex items-center'
+              className='block hover:text-gray-5 transition-colors mb-1 flex items-center'
             >
               Release Notes <ExternalLink size={12} className='ml-1' />
             </button>

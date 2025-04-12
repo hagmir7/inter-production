@@ -18,7 +18,7 @@ electron.contextBridge.exposeInMainWorld('electron', {
     sendFrameAction: (payload) => ipcSend('sendFrameAction', payload),
 
 
-    userData: () => ipcInvoke('userData'),
+    // userData: () => ipcInvoke('userData'),
 
     registerUser: (payload) => electron.ipcRenderer.send('registerUser', payload),
     loginUser: (payload) => electron.ipcRenderer.invoke('loginUser', payload),
@@ -29,7 +29,11 @@ electron.contextBridge.exposeInMainWorld('electron', {
         node: process.versions.node,
         chrome: process.versions.chrome,
         electron: process.versions.electron
-    }
+    },
+
+    logout: () =>electron.ipcRenderer.invoke("logout"),
+
+    users: () => electron.ipcRenderer.invoke('users'),
 
 })
 
