@@ -9,7 +9,7 @@ const Layout = () => {
       <Navbar />
       <Sidebar />
       <div className='sm:ml-64'>
-        <div className='border border-gray-200 rounded-lg mt-6 mx-3'>
+        <div className='border border-gray-200 rounded-lg mt-6 mx-3 overflow-hidden shadow-sm'>
           <Outlet />
         </div>
       </div>

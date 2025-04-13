@@ -2,7 +2,7 @@ import React from 'react'
 import Search from './Search'
 import NavLink from './ui/NavLink'
 import { ArrowRightCircle, CircleUser, LogOut, LogOutIcon, LucideLogOut } from 'lucide-react'
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 import Logout from './Logout'
 import ThemeToggler from './ui/ThemeToggler'
 

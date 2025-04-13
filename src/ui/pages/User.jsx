@@ -4,6 +4,7 @@ import CModal from '../components/ui/CModal'
 import RegisterForm from './Register'
 import axios from 'axios'
 import Spinner from '../components/ui/Spinner'
+import { Link } from 'react-router-dom'
 
 export default function User() {
   const [showDropdown, setShowDropdown] = useState(false)
@@ -197,12 +198,12 @@ export default function User() {
                   {new Date(user.created_at).toLocaleDateString()}
                 </td>
                 <td className='px-6 py-4'>
-                  <a
-                    href='#'
+                  <Link
+                    to={`/profile/${user.id}`}
                     className='font-medium text-blue-600 dark:text-blue-500 hover:underline'
                   >
                     Edit
-                  </a>
+                  </Link>
                 </td>
               </tr>
             ))}
