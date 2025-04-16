@@ -7,7 +7,7 @@ const SidebarItem = ({ label, icon, href, active }) => {
       <Link
         to={href}
         className={`${
-          active ? 'bg-gray-200 flex' : ''
+          active ? 'hover:bg-gray-200 flex' : ''
         } text-gray-500 relative flex items-center justify-center gap-x-3 rounded-lg px-2 py-2 outline-none transition duration-75 hover:bg-gray-200 focus-visible:bg-gray-100 dark:hover:bg-white/5 dark:focus-visible:bg-white/5 dark:bg-white/5`}
       >
         {icon}

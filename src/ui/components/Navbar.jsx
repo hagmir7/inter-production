@@ -8,7 +8,7 @@ import ThemeToggler from './ui/ThemeToggler'
 
 const Navbar = () => {
   return (
-    <nav className='duration-300 backdrop-filter backdrop-blur-lg backdrop-saturate-200 transition-shadow bg-opacity-90 items-center w-full flex justify-between bg-wash dark:bg-wash-dark dark:bg-opacity-95 px-1.5 lg:pe-5 lg:ps-4 z-40 border-b border-b-gray-200'>
+    <nav className='bg-white shadow-sm border-t border-gray-300 relative duration-300 backdrop-filter backdrop-blur-lg backdrop-saturate-200 transition-shadow bg-opacity-90 items-center w-full flex justify-between bg-wash dark:bg-wash-dark dark:bg-opacity-95 px-1.5 lg:pe-5 lg:ps-4 z-40 border-b border-b-gray-200'>
       <div className='flex items-center justify-between w-full h-16 gap-0 sm:gap-3'>
         <div className='flex flex-row 3xl:flex-1 items-centers'>
           {/* <button

@@ -8,8 +8,8 @@ export default function createLoginWindow() {
     let loginWindow = new BrowserWindow({
         width: 400,
         height: 600,
-        // frame: false,
-        // resizable: false,
+        frame: false,
+        resizable: false,
         webPreferences: {
             preload: getPreloadPath(),
         }
@@ -23,9 +23,9 @@ export default function createLoginWindow() {
         });
     }
 
-    // loginWindow.on('maximize', () => {
-    //     loginWindow.unmaximize(); // Prevent maximization
-    // });
+    loginWindow.on('maximize', () => {
+        loginWindow.unmaximize(); // Prevent maximization
+    });
 
     ipcMain.on('registerUser', (event, payload) => {
         new UserController().create(payload);
