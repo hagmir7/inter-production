@@ -61,9 +61,9 @@ const Navbar = () => {
         <div className='text-base justify-center items-center gap-1.5 flex 3xl:flex-1 flex-row 3xl:justify-end'>
           <div className='mx-2.5 gap-1.5 hidden lg:flex'>
             {/* <NavLink lable='Login' to='/login' /> */}
-            <NavLink lable='Learn' to='/users' />
+            {/* <NavLink lable='Learn' to='/users' />
             <NavLink lable='Profile' to='/users' />
-            <NavLink lable='About' to='/users' />
+            <NavLink lable='About' to='/users' /> */}
           </div>
 
           <div className='flex w-full md:hidden'></div>

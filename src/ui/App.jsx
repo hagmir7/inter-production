@@ -18,7 +18,7 @@ import Profile from './pages/Profile';
 function App() {
   return (
     <>
-      <Frame />
+      {/* <Frame /> */}
       <Routes>
         {/* Authentication Routes */}
         <Route element={<AuthLayout />}>

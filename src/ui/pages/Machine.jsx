@@ -1,18 +1,25 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Search, Clock, Plus } from 'lucide-react';
+import axios from 'axios';
 
 export default function Machine() {
   const [showDropdown, setShowDropdown] = useState(false);
   const [timeFilter, setTimeFilter] = useState('Last 30 days');
-  
-  const products = [
-    { id: 1, name: 'Apple MacBook Pro 17"', color: 'Silver', category: 'Laptop', price: '$2999' },
-    { id: 2, name: 'Microsoft Surface Pro', color: 'White', category: 'Laptop PC', price: '$1999' },
-    { id: 3, name: 'Magic Mouse 2', color: 'Black', category: 'Accessories', price: '$99' },
-    { id: 4, name: 'Apple Watch', color: 'Silver', category: 'Accessories', price: '$179' },
-    { id: 5, name: 'iPad', color: 'Gold', category: 'Tablet', price: '$699' },
-    { id: 6, name: 'Apple iMac 27"', color: 'Silver', category: 'PC Desktop', price: '$3999' }
-  ];
+
+  const [data, setData] = useState([]);
+
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+
+
+  const getData = async () => {
+    const response = await axios.get('http://localhost:8000/api/machines');
+    setData(response.data);
+  }
+
 
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
@@ -56,7 +63,7 @@ export default function Machine() {
             type='button'
           >
             <Plus className='w-3 h-3 text-gray-500 dark:text-gray-400 mr-3' />
-           Ajouter
+            Ajouter
           </button>
 
           {showDropdown && (
@@ -120,16 +127,16 @@ export default function Machine() {
               </div>
             </th>
             <th scope='col' className='px-6 py-3'>
-              Product name
+              Code
             </th>
             <th scope='col' className='px-6 py-3'>
-              Color
+              Machine
             </th>
             <th scope='col' className='px-6 py-3'>
               Category
             </th>
             <th scope='col' className='px-6 py-3'>
-              Price
+              Coluer
             </th>
             <th scope='col' className='px-6 py-3'>
               Action
@@ -137,20 +144,20 @@ export default function Machine() {
           </tr>
         </thead>
         <tbody>
-          {products.map((product) => (
+          {data.map((data, index) => (
             <tr
-              key={product.id}
+              key={index}
               className='bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600'
             >
               <td className='w-4 p-4'>
                 <div className='flex items-center'>
                   <input
-                    id={`checkbox-table-search-${product.id}`}
+                    id={`checkbox-table-search-${data.CODE_MACHINE}`}
                     type='checkbox'
                     className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
                   />
                   <label
-                    htmlFor={`checkbox-table-search-${product.id}`}
+                    htmlFor={`checkbox-table-search-${data.CODE_MACHINE}`}
                     className='sr-only'
                   >
                     checkbox
@@ -161,11 +168,12 @@ export default function Machine() {
                 scope='row'
                 className='px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'
               >
-                {product.name}
+                {data.CODE_MACHINE}
               </th>
-              <td className='px-6 py-4'>{product.color}</td>
-              <td className='px-6 py-4'>{product.category}</td>
-              <td className='px-6 py-4'>{product.price}</td>
+              <td className='px-6 py-4'>{data.LIBELLE_MACHINE}</td>
+              <td className='px-6 py-4'><span className='p-2' style={{backgroundColor: data.CODE_COULEUR}}></span></td>
+              <td className='px-6 py-4'>{data.TEMPS_MASQUE}</td>
+              <td className='px-6 py-4'>{data.MULTI_OF_REGL}</td>
               <td className='px-6 py-4'>
                 <a
                   href='#'
