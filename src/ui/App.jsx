@@ -14,16 +14,23 @@ import Maintenance from './pages/Maintenance';
 import Machine from './pages/Machine';
 import 'primereact/resources/themes/lara-light-cyan/theme.css'
 import Profile from './pages/Profile';
+import OrderFabrication from './pages/OrderFabrication';
+import Personnel from './pages/Personnel';
+import Atelier from './pages/Atelier';
+import ShowAtelier from './pages/ShowAtelier';
+import Roles from './pages/Roles';
+import ViewRole from './pages/ViewRole';
 
 function App() {
   return (
     <>
-      <Frame />
+   
       <Routes>
         {/* Authentication Routes */}
         <Route element={<AuthLayout />}>
           <Route path='/login' element={<Login />} />
         </Route>
+        <Route path='/atelier/:id' element={<ShowAtelier />} />
 
         {/* Main Layout Routes */}
         <Route element={<Layout />}>
@@ -31,10 +38,16 @@ function App() {
           <Route path='/production' element={<Production />} />
           <Route path='/maintenance' element={<Maintenance />} />
           <Route path='/machines' element={<Machine />} />
+          <Route path='/of' element={<OrderFabrication />} />
           <Route path='/register' element={<RegisterForm />} />
           <Route path='/users' element={<User />} />
           <Route path='/profile/:id' element={<Profile />} />
           <Route path='/profile' element={<Profile />} />
+          <Route path='/personnel' element={<Personnel />} />
+          <Route path='/ateliers' element={<Atelier />} />
+          <Route path='/roles' element={<Roles />} />
+          <Route path='/roles/:id' element={<ViewRole />} />
+          
           <Route path='*' element={<NotFound />} />
         </Route>
       </Routes>

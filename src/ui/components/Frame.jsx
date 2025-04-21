@@ -1,4 +1,7 @@
 export default function Frame() {
+  if(!window.electron){
+    return <></>
+  }
   return (
     <div className="bg-gray-200 flex items-center p-2 rounded-t-lg shadow-sm frame fixed top-0 w-full">
       {/* Mac Window Buttons */}

@@ -2,24 +2,45 @@ import { useEffect, useState } from 'react';
 import { Search, Clock, Plus } from 'lucide-react';
 import { api } from '../utils';
 
-export default function Machine() {
+export default function OrderFabrication() {
   const [showDropdown, setShowDropdown] = useState(false);
   const [timeFilter, setTimeFilter] = useState('Last 30 days');
-
   const [data, setData] = useState([]);
-
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     getData();
   }, []);
 
+  const getData = async (pageNumber = 1) => {
+    if (isLoading) return;
+    
+    setIsLoading(true);
+    try {
+      const response = await api.get(`/orders-fabrication?page=${pageNumber}`);
+      const newData = response.data.data;
+      
+      if (pageNumber === 1) {
+        setData(newData);
+      } else {
+        setData(prevData => [...prevData, ...newData]);
+      }
+      
+      setHasMore(newData.length > 0);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-
-  const getData = async () => {
-    const response = await api.get('/machines');
-    setData(response.data);
-  }
-
+  const handleLoadMore = () => {
+    const nextPage = page + 1;
+    setPage(nextPage);
+    getData(nextPage);
+  };
 
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
@@ -33,7 +54,7 @@ export default function Machine() {
   return (
     <div className='relative overflow-x-auto shadow-sm sm:rounded-lg'>
       <div className='flex flex-col sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between p-4 bg-gray-200'>
-        <div className='relative'>
+      <div className='relative'>
           <button
             onClick={toggleDropdown}
             className='inline-flex items-center text-gray-500 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700'
@@ -98,7 +119,6 @@ export default function Machine() {
             </div>
           )}
         </div>
-
         <div className='relative'>
           <div className='absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none'>
             <Search className='w-5 h-5 text-gray-500 dark:text-gray-400' />
@@ -126,26 +146,26 @@ export default function Machine() {
                 </label>
               </div>
             </th>
-            <th scope='col' className='px-6 py-3'>
-              Code
+            <th scope='col' className='px-6 py-3 whitespace-pre'>
+              Code OF
             </th>
-            <th scope='col' className='px-6 py-3'>
-              Machine
-            </th>
-            <th scope='col' className='px-6 py-3'>
+            <th scope='col' className='px-6 py-3 whitespace-pre'>
               Coluer
             </th>
-            <th scope='col' className='px-6 py-3'>
+            <th scope='col' className='px-6 py-3 whitespace-pre'>
+              REF ARTICLE
+            </th>
+            <th scope='col' className='px-6 py-3 whitespace-pre'>
+              Article
+            </th>
+            <th scope='col' className='px-6 py-3 whitespace-pre'>
               Etat
             </th>
-            <th scope='col' className='px-6 py-3'>
-              Zone
-            </th>
-            <th scope='col' className='px-6 py-3'>
+            <th scope='col' className='px-6 py-3 whitespace-pre'>
               Atelier
             </th>
-            <th scope='col' className='px-6 py-3'>
-              SECTION
+            <th scope='col' className='px-6 py-3 whitespace-pre'>
+              Date de creation
             </th>
           </tr>
         </thead>
@@ -158,12 +178,12 @@ export default function Machine() {
               <td className='w-4 p-4'>
                 <div className='flex items-center'>
                   <input
-                    id={`checkbox-table-search-${data.CODE_MACHINE}`}
+                    id={`checkbox-table-search-${data.CODE_OF}`}
                     type='checkbox'
                     className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
                   />
                   <label
-                    htmlFor={`checkbox-table-search-${data.CODE_MACHINE}`}
+                    htmlFor={`checkbox-table-search-${data.CODE_OF}`}
                     className='sr-only'
                   >
                     checkbox
@@ -174,18 +194,32 @@ export default function Machine() {
                 scope='row'
                 className='px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'
               >
-                {data.CODE_MACHINE}
+                {data.CODE_OF}
               </th>
-              <td className='px-6 py-4'>{data.LIBELLE_MACHINE}</td>
               <td className='px-6 py-4'><span className='px-4 py-2' style={{backgroundColor: data.CODE_COULEUR}}></span></td>
-              <td className='px-6 py-4'>{data.CODE_ETAT || "__"}</td>
-              <td className='px-6 py-4'>{data.CODE_ZONE || "__"}</td>
+              <td className='px-6 py-4 whitespace-nowrap'>{data.REF_ARTICLE || "__"}</td>
+              <td className='px-6 py-4 whitespace-nowrap'>{data.LIBELLE_OF}</td>
+              <td className='px-6 py-4'>{data.ETAT_OF || "__"}</td>
               <td className='px-6 py-4'>{data.CODE_ATELIER || "__"}</td>
-              <td className='px-6 py-4'>{data.CODE_SECTION || "__"} </td>
+              <td className='px-6 py-4'>
+                {data.DH_CREATION ? new Date(data.DH_CREATION).toLocaleDateString() : "__"}
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
+
+      {hasMore && (
+        <div className="flex justify-center p-4">
+          <button
+            onClick={handleLoadMore}
+            disabled={isLoading}
+            className={`px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
+          >
+            {isLoading ? 'Loading...' : 'Load More'}
+          </button>
+        </div>
+      )}
     </div>
   )
 }

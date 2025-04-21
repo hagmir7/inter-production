@@ -7,9 +7,11 @@ import { createMenu } from "./menu.js";
 import UserController from "./controllers/userController.js";
 import createLoginWindow from "./windwos/loginWindow.js";
 import { preload } from "react-dom";
+import { createShowWindow } from "./windwos/showWindow.js";
 
 let loginWindow;
 let mainWindow;
+let showWindow;
 
 function createMainWindow() {
     // Remove the const to modify the global variable
@@ -43,6 +45,8 @@ function createMainWindow() {
         }
     });
 
+    
+
     ipcMain.on('registerUser', (event, payload) => { // Fixed typo
         new UserController().create(payload);
     });
@@ -56,10 +60,10 @@ function createMainWindow() {
     // Menu
     createMenu(mainWindow);
 
-    return mainWindow; // Return the window object
+    return mainWindow;
 }
 
-function handleCloseEvent(mainWindow) { // Fixed typo
+function handleCloseEvent(mainWindow) { 
     let willClose = false;
 
     mainWindow.on('close', (e) => {
@@ -80,7 +84,7 @@ function handleCloseEvent(mainWindow) { // Fixed typo
     mainWindow.on('show', () => {
         willClose = false;
     });
-} // Added missing closing brace
+}
 
 ipcMain.handle('users', async (event) => {
     return await new UserController().all();
@@ -92,11 +96,10 @@ ipcMain.handle('logout', async (event) => {
             mainWindow.close();
         }
 
-        // Create a new login window if one doesn't exist
         if (!loginWindow || loginWindow.isDestroyed()) {
             loginWindow = createLoginWindow();
         } else {
-            loginWindow.show(); // Use show() instead of open()
+            loginWindow.show();
         }
 
         return { success: true };
@@ -126,6 +129,22 @@ ipcMain.handle('loginUser', async (event, data) => {
     }
 });
 
+
+ipcMain.on('openShow', async (event, preload) => {
+    
+    try {
+        if (!showWindow || showWindow.isDestroyed()) {
+            showWindow = createShowWindow(preload);
+        } else {
+            showWindow.show();
+        }
+
+        return { success: true };
+    } catch (error) {
+        console.error('Logout error:', error);
+        return { success: false, error: error.message };
+    }
+});
 
 app.on('ready', () => {
     loginWindow = createLoginWindow();

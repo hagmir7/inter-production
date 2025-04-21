@@ -7,11 +7,11 @@ import Side from '../components/Side'
 const Layout = () => {
   return (
     <>
-      {/* <Navbar /> */}
+      <Navbar />
       {/* <Sidebar /> */}
       <Side />
-      <div className='sm:ml-64'>
-        <div className='border border-gray-200 rounded-lg mt-6 mx-3 overflow-hidden shadow-sm'>
+      <div className='lg:ml-72 pb-14'>
+        <div className='px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto'>
           <Outlet />
         </div>
       </div>

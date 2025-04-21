@@ -12,6 +12,10 @@ const Footer = () => {
   const [currentTime, setCurrentTime] = useState(new Date())
   const [showSettings, setShowSettings] = useState(false)
 
+  if(!window.electron){
+    return <></>
+  }
+
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentTime(new Date())

@@ -1,13 +1,20 @@
 import { ArrowRightCircle } from 'lucide-react'
 import React from 'react'
+import { useNavigate } from 'react-router'
 
 export default function Logout() {
+  const navigate = useNavigate();
+
+
   const handelLogout = async () => {
     localStorage.removeItem('authToken')
-    if(window.electron){
+    localStorage.removeItem('user')
+    if (window.electron) {
       await window.electron.logout();
+    } else {
+      navigate('/login')
     }
-    
+
   }
 
   return (

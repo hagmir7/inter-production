@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { ChevronDown, Mail, Phone } from 'lucide-react'
-import axios from 'axios'
 import { useParams } from 'react-router-dom'
+import { api } from '../utils'
 
 export default function Profile() {
   const [userData, setUserData] = useState({
@@ -9,10 +9,11 @@ export default function Profile() {
     full_name: '',
     email: '',
     phone: '',
-    role: [],
+    roles: [],
   })
+  const [roles, setRoles] = useState([]);
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
+  const [message, setMessage] = useState(null)
   const { id } = useParams()
 
   useEffect(() => {
@@ -20,29 +21,33 @@ export default function Profile() {
       try {
         setLoading(true)
         const token = localStorage.getItem('authToken')
-        const url = `http://localhost:8000/api/user/${id || ''}`
-        const response = await axios.get(url, {
+        const url = `user/${id || ''}`
+        const response = await api.get(url, {
           headers: {
             ContentType: 'application/json',
             Authorization: 'Bearer ' + token,
           },
         })
-        
 
-        // if (!response.ok) {
-        //   throw new Error('Erreur lors de la récupération des données')
-        // }
+        const data = response.data;
+        setRoles(data.roles);
+
+        // Extract just the role IDs from the user's roles array
+        // This assumes data.user.roles is an array of objects with an id property
+        const userRoleIds = Array.isArray(data.user.roles) 
+          ? data.user.roles.map(role => role.name.toString())  // Convert IDs to strings to match option values
+          : [];
 
         setUserData({
-          name: response.data.name || '',
-          full_name: response.data.full_name || '',
-          email: response.data.email || '',
-          phone: response.data.phone || '',
-          //   role: response.data.role || '',
+          name: data.user.name || '',
+          full_name: data.user.full_name || '',
+          email: data.user.email || '',
+          phone: data.user.phone || '',
+          roles: userRoleIds,  // Store just the IDs
         })
       } catch (err) {
-        setError('Impossible de charger les données du profil')
-        console.error('Erreur de chargement:', err)
+        setMessage(() => (<div className='mb-4 p-3 bg-red-100 text-red-700 rounded'>Impossible de charger les données du profil</div>));
+        console.error('Erreur de chargement:', err);
       } finally {
         setLoading(false)
       }
@@ -51,7 +56,7 @@ export default function Profile() {
     fetchUserData()
   }, [id])
 
-  // Gestion des changements de champs
+  // Gestion des changements de champs standard
   const handleChange = (e) => {
     const { name, value } = e.target
     setUserData({
@@ -60,48 +65,51 @@ export default function Profile() {
     })
   }
 
+  // Gestion spécifique pour les sélections multiples de rôles
+  const handleRoleChange = (e) => {
+    // Convert the HTMLCollection to an array of selected values
+    const selectedOptions = Array.from(e.target.selectedOptions).map(option => option.value);
+    
+    setUserData({
+      ...userData,
+      roles: selectedOptions
+    });
+  }
+
   // Gestion de l'envoi du formulaire
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
       setLoading(true)
-      // Remplacer l'URL par votre endpoint API réel
+      
+      // Create a payload with role IDs in the format expected by the API
+      const payload = {
+        ...userData,
+        // Convert role IDs back to the format expected by the API if needed
+        // (modify this according to what your API expects)
+      };
+      
       const token = localStorage.getItem('authToken')
-      const response = await axios.get('http://localhost:8000/user', {
+      const url = `user/update/${id || ''}`
+      const response = await api.post(url, payload, {
         headers: {
           ContentType: 'application/json',
           Authorization: 'Bearer ' + token,
         },
       })
 
-      if (!response.ok) {
-        throw new Error('Erreur lors de la mise à jour du profil')
-      }
-
-      alert('Profil mis à jour avec succès!')
+      setMessage(() => (<div className='mb-4 p-3 bg-green-100 text-green-700 rounded'>Profil mis à jour avec succès!</div>))
     } catch (err) {
-      setError('Échec de la mise à jour du profil')
-      console.error('Erreur de mise à jour:', err)
+      setMessage(() => (<div className='mb-4 p-3 bg-red-100 text-red-700 rounded'>Échec de la mise à jour du profil</div>))
     } finally {
       setLoading(false)
     }
   }
 
-  if (loading && !userData.name) {
-    return <div className='p-6 text-center'>Chargement...</div>
-  }
-
-  if (error && !userData.name) {
-    return <div className='p-6 text-center text-red-500'>{error}</div>
-  }
-
   return (
     <div className='p-6 mx-auto bg-white overflow-hidden shadow-sm'>
-      <h1 className='text-xl font-bold mb-6'>Votre compte {id}</h1>
-
-      {error && (
-        <div className='mb-4 p-3 bg-red-100 text-red-700 rounded'>{error}</div>
-      )}
+      <h1 className='text-xl font-bold mb-6'>Votre compte {userData.full_name}</h1>
+      {message}
 
       <form onSubmit={handleSubmit}>
         <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
@@ -183,15 +191,15 @@ export default function Profile() {
             </div>
             <div className='relative'>
               <select
-                name='role'
-                value={userData.role}
-                onChange={handleChange}
+                name='roles'
+                multiple
+                value={userData.roles || []}
+                onChange={handleRoleChange}
                 className='w-full p-3 border border-gray-300 rounded appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500'
               >
-                <option value=''>Choisissez le rôle</option>
-                <option value='admin'>Administrateur</option>
-                <option value='operator'>Opérateur</option>
-                <option value='developer'>Développeur</option>
+                {roles.map((role) => (
+                  <option key={role.id} value={role.name.toString()}>{role.name}</option>
+                ))}
               </select>
               <div className='absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-500'>
                 <ChevronDown size={18} />
