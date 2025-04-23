@@ -34,13 +34,13 @@ function createMainWindow() {
     ipcMain.on('sendFrameAction', (event, payload) => {
         switch (payload) {
             case "CLOSE":
-                login.close();
+                loginWindow.close();
                 break;
             case "MINIMIZE":
-                login.minimize();
+                loginWindow.minimize();
                 break;
             default:
-                login.maximize();
+                loginWindow.maximize();
                 break;
         }
     });
@@ -58,7 +58,8 @@ function createMainWindow() {
     createTray(mainWindow);
 
     // Menu
-    createMenu(mainWindow);
+    // createMenu(mainWindow);
+    createMenu(null);
 
     return mainWindow;
 }

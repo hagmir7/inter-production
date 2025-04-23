@@ -28,7 +28,13 @@ export default function CModal({ children, label, title, icon, btnClass }) {
           'font-medium text-center rounded-md border-2 border-red-500 text-red-500 hover:bg-red-500 hover:text-white transition-colors duration-300 py-2 px-6 shadow-sm focus:outline-none focus:ring-2 focus:ring-red-300 active:scale-95 transform cursor-pointer w-full'
         }
       >
-        <div className='w-full flex justify-center'>{icon || <Settings />}</div>
+        <div className='w-full flex justify-center'>
+          {icon && (
+            <span className='modal-icon'>
+              {typeof icon === 'function' ? icon() : icon}
+            </span>
+          )}
+        </div>
         <div>{label}</div>
       </button>
 
