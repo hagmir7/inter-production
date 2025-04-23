@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Search, Clock, Plus } from 'lucide-react'
+import { Search, Clock, Plus, Edit } from 'lucide-react'
 import CModal from '../components/ui/CModal'
 import RegisterForm from './Register'
 import Spinner from '../components/ui/Spinner'
@@ -210,7 +210,7 @@ export default function User() {
                     to={`/profile/${user.id}`}
                     className='font-medium text-blue-600 dark:text-blue-500 hover:underline'
                   >
-                    Edit
+                    <Edit size={19} />
                   </Link>
                 </td>
               </tr>

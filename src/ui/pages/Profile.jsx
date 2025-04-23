@@ -112,7 +112,7 @@ export default function Profile() {
       {message}
 
       <form onSubmit={handleSubmit}>
-        <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+        <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6'>
           <div>
             <label className='block mb-2 font-medium'>
               Nom d'utilisateur<span className='text-red-500'>*</span>
@@ -214,7 +214,7 @@ export default function Profile() {
             disabled={loading}
             className='px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-blue-300'
           >
-            {loading ? 'Enregistrement...' : 'Enregistrer les modifications'}
+            {loading ? 'Enregistrement...' : 'Enregistrer'}
           </button>
         </div>
       </form>
