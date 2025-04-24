@@ -2,13 +2,14 @@ import CModal from '../components/ui/CModal'
 import React, { useRef } from 'react'
 import { Stepper } from 'primereact/stepper'
 import { StepperPanel } from 'primereact/stepperpanel'
+import { Webhook } from 'lucide-react'
 
 function MontageOutillage() {
   const stepperRef = useRef(null)
 
   return (
     <div>
-      <CModal title="Montage Outillage" label="Montage Outillage">
+      <CModal title="Montage Outillage" label="Montage Outillage" icon={<Webhook />}>
         <div className='card flex justify-content-center'>
           <Stepper ref={stepperRef} style={{ flexBasis: '50rem' }}>
             <StepperPanel>

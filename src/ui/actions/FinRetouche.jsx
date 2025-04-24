@@ -3,6 +3,7 @@ import React, { useRef, useState } from 'react'
 import { Stepper } from 'primereact/stepper'
 import { StepperPanel } from 'primereact/stepperpanel'
 import { api } from '../utils'
+import { DnaOff } from 'lucide-react'
 
 function FinRetouche() {
   const stepperRef = useRef(null)
@@ -44,7 +45,7 @@ function FinRetouche() {
 
   return (
     <div>
-      <CModal title='Fin de Retouche' label='Fin de Retouche'>
+      <CModal title='Fin de Retouche' label='Fin de Retouche' icon={<DnaOff />}>
         <form onSubmit={handelSubmit} className=''>
           {Object.values(errorsMessage).map((msg, index) => (
             <div key={index} className='bg-red-100 text-red-900 p-2'>

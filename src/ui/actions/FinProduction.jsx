@@ -3,6 +3,7 @@ import React, { useRef, useState } from 'react'
 import { Stepper } from 'primereact/stepper'
 import { StepperPanel } from 'primereact/stepperpanel'
 import { api } from '../utils'
+import { RefreshCwOff } from 'lucide-react'
 
 function FinProduction() {
   const stepperRef = useRef(null)
@@ -45,7 +46,7 @@ function FinProduction() {
 
   return (
     <div>
-      <CModal title='Fin de Production' label='Fin de Production'>
+      <CModal title='Fin de Production' label='Fin de Production' icon={<RefreshCwOff />}>
         <form onSubmit={handelSubmit} className=''>
           {Object.values(errorsMessage).map((msg, index) => (
             <div key={index} className='bg-red-100 text-red-900 p-2'>

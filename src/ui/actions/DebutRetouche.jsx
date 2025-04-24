@@ -3,6 +3,7 @@ import React, { useRef, useState } from 'react'
 import { Stepper } from 'primereact/stepper'
 import { StepperPanel } from 'primereact/stepperpanel'
 import { api } from "../utils";
+import { Dna } from 'lucide-react';
 
 function DebutProduction() {
   const stepperRef = useRef(null)
@@ -40,7 +41,7 @@ function DebutProduction() {
 
   return (
     <div>
-      <CModal title='Début de Retouche' label='Début de Retouche'>
+      <CModal title='Début de Retouche' label='Début de Retouche' icon={<Dna />}>
         <form onSubmit={handelSubmit} className='space-y-4'>
           {Object.values(errorsMessage).map((msg, index) => (
             <div key={index} className='bg-red-100 text-red-900 p-2'>

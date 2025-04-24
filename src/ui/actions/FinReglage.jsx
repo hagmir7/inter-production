@@ -1,6 +1,7 @@
 import CModal from '../components/ui/CModal'
 import React, { useState } from 'react';
 import { api } from "../utils";
+import { RouteOff } from 'lucide-react';
 
 
 function FinReglage() {
@@ -33,7 +34,7 @@ function FinReglage() {
 
   return (
     <div>
-      <CModal title='Fin de reglage' label='Fin de reglage'>
+      <CModal title='Fin de reglage' label='Fin de reglage' icon={<RouteOff />}>
       <form onSubmit={handelSubmit} className='space-y-4'>
           {Object.values(errorsMessage).map((msg, index) => (
             <div key={index} className='bg-red-100 text-red-900 p-2'>
