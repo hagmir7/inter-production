@@ -24,7 +24,6 @@ function DebutReglage() {
       setLoading(false);
       return;
     }
-
     setLoading(false)
   }
 

@@ -25,9 +25,11 @@ function FinProduction() {
   const [message, setMessage] = useState(null)
 
   const handelSubmit = async (e) => {
+    
+    e.preventDefault()
+    setMessage(null)
     setErrorsMessage([])
     setLoading(true)
-    e.preventDefault()
     const response = await api.post('production/fin', form)
     if (response.data.errors) {
       setErrorsMessage(response.data.errors)
@@ -232,11 +234,8 @@ function FinProduction() {
                       />
                     </div>
                     <div className='ms-2 text-sm'>
-                      <label
-                        htmlFor='status-individual'
-                        className='font-medium text-gray-900 dark:text-gray-300'
-                      >
-                        <div>Individual</div>
+                      <label htmlFor='status-individual' className='font-medium text-gray-900 dark:text-gray-300'>
+                        <div>Suspendue</div>
                       </label>
                     </div>
                   </div>
@@ -256,11 +255,8 @@ function FinProduction() {
                     </div>
 
                     <div className='ms-2 text-sm'>
-                      <label
-                        htmlFor='status-company'
-                        className='font-medium text-gray-900 dark:text-gray-300'
-                      >
-                        <div>Company</div>
+                      <label htmlFor='status-company' className='font-medium text-gray-900 dark:text-gray-300'>
+                        <div>Terminée</div>
                       </label>
                     </div>
                   </div>

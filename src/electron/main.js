@@ -58,8 +58,8 @@ function createMainWindow() {
     createTray(mainWindow);
 
     // Menu
-    // createMenu(mainWindow);
-    createMenu(null);
+    createMenu(mainWindow);
+    // createMenu(null);
 
     return mainWindow;
 }

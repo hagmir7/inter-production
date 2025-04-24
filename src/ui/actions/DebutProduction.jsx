@@ -18,6 +18,7 @@ function DebutProduction() {
 
   const handelSubmit = async (e) => {
     setErrorsMessage([])
+    setMessage(null)
     setLoading(true)
     e.preventDefault();
     const response = await api.post('production/debut', form);

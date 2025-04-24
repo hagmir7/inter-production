@@ -4,7 +4,7 @@ import { api } from '../utils';
 
 export default function OrderFabrication() {
   const [showDropdown, setShowDropdown] = useState(false);
-  const [timeFilter, setTimeFilter] = useState('Last 30 days');
+  const [statusFilter, setStatusFilter] = useState('Filtre');
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
@@ -46,10 +46,29 @@ export default function OrderFabrication() {
     setShowDropdown(!showDropdown);
   };
 
-  const handleFilterChange = (filter) => {
-    setTimeFilter(filter);
+  const handleFilterChange = async (filter, lable) => {
+
+    setStatusFilter(lable);
     setShowDropdown(false);
+    if(filter === "TOUTE"){
+      getData();
+      return;
+    }
+    const response = await api.get(`/orders-fabrication/filter?status=${filter}`);
+    setData(response.data);
+   
   };
+
+  const filters = [
+    { "TOUTE": "Toute" },
+    { "ATTENTE": "Attente" },
+    { "PREP": "Préparation" },
+    { "LANC": "Lancé" },
+    { "BLOC": "Bloqué" },
+    { "SUSP": "Suspendu" },
+    { "FINI": "Clôturé" },
+    { "ARCHIVE": "Archivé" },
+  ]
 
   return (
     <div className='relative overflow-x-auto shadow-sm sm:rounded-lg'>
@@ -61,7 +80,7 @@ export default function OrderFabrication() {
             type='button'
           >
             <Clock className='w-3 h-3 text-gray-500 dark:text-gray-400 mr-3' />
-            {timeFilter}
+            {statusFilter}
             <svg
               className='w-2.5 h-2.5 ml-2.5'
               aria-hidden='true'
@@ -90,34 +109,39 @@ export default function OrderFabrication() {
           {showDropdown && (
             <div className='absolute z-10 mt-1 w-48 bg-white divide-y divide-gray-100 rounded-lg shadow-sm dark:bg-gray-700 dark:divide-gray-600'>
               <ul className='p-3 space-y-1 text-sm text-gray-700 dark:text-gray-200'>
-                {[
-                  'Last day',
-                  'Last 7 days',
-                  'Last 30 days',
-                  'Last month',
-                  'Last year',
-                ].map((filter) => (
-                  <li key={filter}>
+              {filters.map((filterObj, index) => {
+                const [key, value] = Object.entries(filterObj)[0];
+
+                // if(statusFilter === value){
+                //   console.log(statusFilter,value);
+                // }
+                
+                
+                return (
+                  <li key={key}>
                     <div className='flex items-center p-2 rounded-sm hover:bg-gray-100 dark:hover:bg-gray-600'>
                       <input
-                        id={`filter-radio-${filter}`}
+                        id={`filter-radio-${key}`}
                         type='radio'
-                        checked={timeFilter === filter}
-                        onChange={() => handleFilterChange(filter)}
+                        checked={statusFilter === value}
+                        onChange={() => handleFilterChange(key, value)}
                         className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
                       />
                       <label
-                        htmlFor={`filter-radio-${filter}`}
+                        htmlFor={`filter-radio-${key}`}
                         className='w-full ml-2 text-sm font-medium text-gray-900 rounded-sm dark:text-gray-300'
                       >
-                        {filter}
+                        {value}
                       </label>
                     </div>
                   </li>
-                ))}
+                );
+              })}
               </ul>
             </div>
           )}
+
+
         </div>
         <div className='relative'>
           <div className='absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none'>
@@ -134,24 +158,12 @@ export default function OrderFabrication() {
       <table className='w-full text-sm text-left text-gray-500 dark:text-gray-400'>
         <thead className='text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400'>
           <tr>
-            <th scope='col' className='p-4'>
-              <div className='flex items-center'>
-                <input
-                  id='checkbox-all-search'
-                  type='checkbox'
-                  className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
-                />
-                <label htmlFor='checkbox-all-search' className='sr-only'>
-                  checkbox
-                </label>
-              </div>
-            </th>
             <th scope='col' className='px-6 py-3 whitespace-pre'>
               Code OF
             </th>
-            <th scope='col' className='px-6 py-3 whitespace-pre'>
+            {/* <th scope='col' className='px-6 py-3 whitespace-pre'>
               Coluer
-            </th>
+            </th> */}
             <th scope='col' className='px-6 py-3 whitespace-pre'>
               REF ARTICLE
             </th>
@@ -160,6 +172,19 @@ export default function OrderFabrication() {
             </th>
             <th scope='col' className='px-6 py-3 whitespace-pre'>
               Etat
+            </th>
+            <th scope='col' className='px-6 py-3 whitespace-pre'>
+              Quantite lancee
+            </th>
+            <th scope='col' className='px-6 py-3 whitespace-pre'>
+              Quantite bonne
+            </th>
+            <th scope='col' className='px-6 py-3 whitespace-pre'>
+              Quantite rebutee
+            </th>
+
+            <th scope='col' className='px-6 py-3 whitespace-pre'>
+              Quantite autre
             </th>
             <th scope='col' className='px-6 py-3 whitespace-pre'>
               Atelier
@@ -175,31 +200,27 @@ export default function OrderFabrication() {
               key={index}
               className='bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600'
             >
-              <td className='w-4 p-4'>
-                <div className='flex items-center'>
-                  <input
-                    id={`checkbox-table-search-${data.CODE_OF}`}
-                    type='checkbox'
-                    className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
-                  />
-                  <label
-                    htmlFor={`checkbox-table-search-${data.CODE_OF}`}
-                    className='sr-only'
-                  >
-                    checkbox
-                  </label>
-                </div>
-              </td>
+             
               <th
                 scope='row'
                 className='px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'
               >
                 {data.CODE_OF}
               </th>
-              <td className='px-6 py-4'><span className='px-4 py-2' style={{backgroundColor: data.CODE_COULEUR}}></span></td>
+              {/* <td className='px-6 py-4'><span className='px-4 py-2' style={{backgroundColor: data.CODE_COULEUR}}></span></td> */}
               <td className='px-6 py-4 whitespace-nowrap'>{data.REF_ARTICLE || "__"}</td>
               <td className='px-6 py-4 whitespace-nowrap'>{data.LIBELLE_OF}</td>
-              <td className='px-6 py-4'>{data.ETAT_OF || "__"}</td>
+              <td className='px-6 py-4'>
+                <div className='bg-red-100 border border-red-300 p-1 text-red-600 w-22 text-center'>
+                  {
+                    filters.find(obj => Object.keys(obj)[0] === data.ETAT_OF)?.[data.ETAT_OF] || "__"
+                  }
+                </div>
+              </td>
+              <td className='px-6 py-4 whitespace-nowrap'>{Math.floor(data.QTE_LANCEE)}</td>   
+              <td className='px-6 py-4 whitespace-nowrap'>{Math.floor(data.QTE_BONNE)}</td>
+              <td className='px-6 py-4 whitespace-nowrap'>{Math.floor(data.QTE_REBUT)}</td>
+              <td className='px-6 py-4 whitespace-nowrap'>{Math.floor(data.QTE_AUTRE)}</td> 
               <td className='px-6 py-4'>{data.CODE_ATELIER || "__"}</td>
               <td className='px-6 py-4'>
                 {data.DH_CREATION ? new Date(data.DH_CREATION).toLocaleDateString() : "__"}

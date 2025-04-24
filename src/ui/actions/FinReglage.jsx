@@ -17,6 +17,7 @@ function FinReglage() {
     setErrorsMessage([])
     setLoading(true)
     e.preventDefault();
+    
     const response = await api.post('reglage/fin', form);
 
     if(response.statusText !== 'ok') {setLoading(false)}
