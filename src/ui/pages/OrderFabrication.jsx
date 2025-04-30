@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Search, Clock, Plus } from 'lucide-react';
 import { api } from '../utils';
+import { useNavigate } from 'react-router';
 
 export default function OrderFabrication() {
+
+  
   const [showDropdown, setShowDropdown] = useState(false);
   const [statusFilter, setStatusFilter] = useState('Filtre');
   const [data, setData] = useState([]);
@@ -13,6 +16,9 @@ export default function OrderFabrication() {
   useEffect(() => {
     getData();
   }, []);
+
+
+  const navigate = useNavigate();
 
   const getData = async (pageNumber = 1) => {
     if (isLoading) return;
@@ -69,6 +75,10 @@ export default function OrderFabrication() {
     { "FINI": "Clôturé" },
     { "ARCHIVE": "Archivé" },
   ]
+
+  const handelShow = async (id) => {
+    navigate(`/of/${id}`);
+  }
 
   return (
     <div className='relative overflow-x-auto shadow-sm sm:rounded-lg'>
@@ -196,9 +206,11 @@ export default function OrderFabrication() {
         </thead>
         <tbody>
           {data.map((data, index) => (
+            
             <tr
               key={index}
-              className='bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600'
+              onClick={()=> handelShow(data.CODE_OF)}
+              className='bg-white border-b cursor-pointer dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600'
             >
              
               <th

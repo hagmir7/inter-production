@@ -62,7 +62,7 @@ function DebutReglage() {
             onChange={(e) => setForm({ ...form, code_machine: e.target.value })}
             onScan={(value) => setForm({ ...form, code_machine: value })}
             label='N° de Machine'
-            placeholder='Scanner ou saisir le N° de Machine'
+            placeholder='N° de Machine'
           />
 
           <InputField
@@ -70,7 +70,7 @@ function DebutReglage() {
             onChange={(e) => setForm({ ...form, code_personnel: e.target.value })}
             onScan={(value) => setForm({ ...form, code_personnel: value })}
             label='N° de Badge'
-            placeholder='Scanner ou saisir le N° de Badge'
+            placeholder='N° de Badge'
           />
 
           <InputField
@@ -78,7 +78,7 @@ function DebutReglage() {
             onChange={(e) => setForm({ ...form, code_of: e.target.value })}
             onScan={(value) => setForm({ ...form, code_of: value })}
             label='Code de fabrication'
-            placeholder='Entrez ou scannez le code de fabrication'
+            placeholder='Code OF'
           />
 
           <button
@@ -112,7 +112,7 @@ function DebutReglage() {
                     d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
                   ></path>
                 </svg>
-                Traitement en cours...
+                Traitement...
               </span>
             ) : (
               'Valider'

@@ -32,7 +32,7 @@ export default function CModal({ children, label, title, icon, btnClass }) {
   }
 
   function handleOverlayClick(e) {
-    if (e.target === e.currentTarget) closeModal()
+    // if (e.target === e.currentTarget) closeModal()
   }
 
   return (
@@ -55,7 +55,7 @@ export default function CModal({ children, label, title, icon, btnClass }) {
 
       {modalIsOpen && (
         <div
-          className='fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 md:p-4 p-0'
+          className='fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 md:p-4'
           onClick={handleOverlayClick}
         >
           <div
@@ -66,7 +66,7 @@ export default function CModal({ children, label, title, icon, btnClass }) {
             max-w-none rounded-none h-screen sm:m-0 w-full overflow-y-auto'
             onClick={(e) => e.stopPropagation()}
           >
-            <div className='flex justify-between items-center mb-3'>
+            <div className='flex justify-between items-center my-3'>
               <h2 id='modal-title' className='text-xl font-bold text-gray-900'>
                 {title}
               </h2>

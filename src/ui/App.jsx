@@ -20,6 +20,7 @@ import Atelier from './pages/Atelier';
 import ShowAtelier from './pages/ShowAtelier';
 import Roles from './pages/Roles';
 import ViewRole from './pages/ViewRole';
+import ShowOF from './pages/ShowOF';
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
           <Route path='/maintenance' element={<Maintenance />} />
           <Route path='/machines' element={<Machine />} />
           <Route path='/of' element={<OrderFabrication />} />
+          <Route path='/of/:id' element={<ShowOF />} />
           <Route path='/register' element={<RegisterForm />} />
           <Route path='/users' element={<User />} />
           <Route path='/profile/:id' element={<Profile />} />
@@ -47,6 +49,7 @@ function App() {
           <Route path='/ateliers' element={<Atelier />} />
           <Route path='/roles' element={<Roles />} />
           <Route path='/roles/:id' element={<ViewRole />} />
+         
           
           <Route path='*' element={<NotFound />} />
         </Route>

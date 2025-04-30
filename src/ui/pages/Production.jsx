@@ -8,6 +8,7 @@ import FinRetouche from '../actions/FinRetouche'
 import DebutRetouche from '../actions/DebutRetouche'
 import MontageOutillage from '../actions/MontageOutillage'
 import DemontageOutillage from '../actions/DemontageOutillage'
+import ChangementOF from '../actions/ChangementOF'
 
 function Production() {
     return (
@@ -17,6 +18,7 @@ function Production() {
           <FinReglage />
           
           <DebutProduction />
+          <ChangementOF />
           <FinProduction />
 
           <DebutRetouche />
